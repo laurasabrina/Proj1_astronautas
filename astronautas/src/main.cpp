@@ -105,7 +105,7 @@ public:
         for(int i = 0; i < cpfs.size(); i++){
             if(cpfs[i] == numCpf){
                 cpfs.erase(cpfs.begin() + i);
-                break;
+                return true;     // melhoria sugerida pela IA
             }
         }
         return false;

@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -55,6 +56,11 @@ public:
     void morrer(){
         vivo = false;
         disponivel = false;
+    }
+
+    void definirEstado(bool vivoAstronauta, bool disponibilidade){
+        vivo = vivoAstronauta;
+        disponivel = disponibilidade;
     }
 
 };
@@ -123,6 +129,10 @@ public:
         estado = "finalizado com sucesso";
     }
 
+    void definirEstado(string novoEstado){
+        estado = novoEstado;
+    }
+
 };
 
 class Agencia{
@@ -157,6 +167,100 @@ private:
     }
 
 public:
+
+    void salvar(string nomeArquivo){
+        ofstream arquivo(nomeArquivo.c_str());
+
+        if(!arquivo){
+            cout << "ERRO: nao foi possivel salvar em " << nomeArquivo << endl;
+            return;
+        }
+
+        arquivo << "ASTRONAUTAS" << endl;
+        arquivo << astronautas.size() << endl;
+        for(int i = 0; i < astronautas.size(); i++){
+            arquivo << astronautas[i].getCpf() << endl;
+            arquivo << astronautas[i].getNome() << endl;
+            arquivo << astronautas[i].getIdade() << endl;
+            arquivo << astronautas[i].estaVivo() << endl;
+            arquivo << astronautas[i].estaDisponivel() << endl;
+        }
+
+        arquivo << "VOOS" << endl;
+        arquivo << voos.size() << endl;
+        for(int i = 0; i < voos.size(); i++){
+            arquivo << voos[i].getCodigo() << endl;
+            arquivo << voos[i].getEstado() << endl;
+            arquivo << voos[i].getQuantidadeAstronautas() << endl;
+            for(int j = 0; j < voos[i].getQuantidadeAstronautas(); j++){
+                arquivo << voos[i].getCpf(j) << endl;
+            }
+        }
+
+        arquivo.close();
+
+        cout << "OK: dados salvos em " << nomeArquivo << endl;
+    }
+
+    void carregar(string nomeArquivo){
+        ifstream arquivo(nomeArquivo.c_str());
+
+        if(!arquivo){
+            cout << "ERRO: nao foi possivel carregar de " << nomeArquivo << endl;
+            return;
+        }
+
+        astronautas.clear();
+        voos.clear();
+
+        string secao;
+        int quantidade;
+        int i;
+
+        arquivo >> secao >> quantidade;
+        for(i = 0; i < quantidade; i++){
+            string cpf, nome;
+            int idade;
+            bool vivo, disponivel;
+
+            arquivo >> cpf;
+            arquivo.ignore();
+            getline(arquivo, nome);
+            arquivo >> idade >> vivo >> disponivel;
+
+            Astronauta astronauta(cpf, nome, idade);
+            astronauta.definirEstado(vivo, disponivel);
+            astronautas.push_back(astronauta);
+        }
+
+        arquivo >> secao >> quantidade;
+        for(i = 0; i < quantidade; i++){
+            int codigo;
+            string estado;
+            int numeroDeCpfs;
+
+            arquivo >> codigo;
+            arquivo.ignore();
+            getline(arquivo, estado);
+            arquivo >> numeroDeCpfs;
+
+            Voo voo(codigo);
+            voo.definirEstado(estado);
+
+            for(int j = 0; j < numeroDeCpfs; j++){
+                string cpfLido;
+                arquivo >> cpfLido;
+                voo.adicionarAstronauta(cpfLido);
+            }
+
+            voos.push_back(voo);
+        }
+
+        arquivo.close();
+
+        cout << "OK: dados carregados de " << nomeArquivo << endl;
+    }
+
     void cadastrarAstronauta(string numCpf, string nomeAstronauta, int id){
         if(buscarAstronauta(numCpf) != -1){
             cout << "ERRO: astronauta com CPF " << numCpf << " ja cadastrado" << endl;
@@ -551,6 +655,14 @@ int main() {
             string cpf;
             cin >> cpf;
             agencia.historico(cpf);
+        } else if (comando == "SALVAR") {
+            string arquivo;
+            cin >> arquivo;
+            agencia.salvar(arquivo);
+        } else if (comando == "CARREGAR") {
+            string arquivo;
+            cin >> arquivo;
+            agencia.carregar(arquivo);
         } else {
             cout << "ERRO: comando desconhecido " << comando << endl;
         }

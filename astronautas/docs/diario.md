@@ -6,13 +6,15 @@ com a IA. Cole só os pedidos que você enviou.
 ## Ambiente
 
 **- Versão do OpenCode (`opencode --version`):** 1.18.31
+
 **- Modelo usado:** big pickle
 
 ## Parte 1: antes de programar
 
-**- O que cada classe guarda:** Na parte 1 do projeto temos três classes: Astronauta, que guarda as informações de um astronauta (uma pessoa); Voo, que guarda as informações de uma viagem ao espaço, bem como os dados (cpfs) dos astronautas que nela estavam; e, Agencia, que guarda as informações dos astronautas (cpfs) e voos (codigos) e organiza as operações que podem ser feitas.
+**- O que cada classe guarda:** Na parte 1 do projeto temos três classes: Astronauta, que guarda as informações de um astronauta (uma pessoa); Voo, que guarda as informações de uma viagem, bem como os dados (cpfs) dos astronautas que nela estavam; e, Agencia, que guarda as informações dos astronautas (cpfs) e voos (codigos) e organiza as operações que podem ser feitas.
 
-**- O que acontece em `LANCAR_VOO`, em palavras:**
+**- O que acontece em `LANCAR_VOO`, em palavras:** a agencia verifica a existência do voo, confere o estado, checa se tem alguém a bordo (para cada cpf procura o astronauta, verifica se está vivo e disponível). Depois de todas essas verificações, dá instruções para os astronautas embarcarem e manda o voo mudar o estado.
+
 **- Uma dúvida que eu tinha antes de começar:**
 
 ## Parte 1: uso de IA para entender algo
@@ -22,10 +24,33 @@ com a IA. Cole só os pedidos que você enviou.
 
 ## Primeiro contato: revisão sem editar
 
-**- As três melhorias que a IA sugeriu, em uma linha cada:**
-**- A que escolhi e por quê:**
-**- O que mudou no código, e se os seis testes continuaram passando:**
-**- O que entendi que não sabia antes:**
+**- As três melhorias que a IA sugeriu, em uma linha cada:** Perdi o histórico das melhoria que a IA passou.
+
+**- A que escolhi e por quê:** Alterar um comando de `removerAstronauta`. A escolha foi baseada no mínimo de mudança que a IA faria no programa, pois ainda não me sentia segura em permitir uma mudança mais robusta. 
+
+**- O que mudou no código, e se os seis testes continuaram passando:** A mudança foi bem básica e quase imperceptível, apenas uma linha:
+ANTES
+bool removerAstronauta(string numCpf){
+     for (int i = 0; i < cpfs.size(); i++) {
+         if (cpfs[i] == "111") {
+            cpfs.erase(cpfs.begin() + i); 
+            break; 
+         }
+     }
+}
+
+DEPOIS
+bool removerAstronauta(string numCpf){
+        for(int i = 0; i < cpfs.size(); i++){
+            if(cpfs[i] == numCpf){
+                cpfs.erase(cpfs.begin() + i);
+                return true;
+            }
+        }
+        return false;
+}
+
+**- O que entendi que não sabia antes:** A IA explicou que existe uma regra simples na qual, se depois do laço não há mais nada a fazer, `return` é mais curto. Se há (ex.: imprimir, contar, continuar o laço para outro objetivo), aí usa `break` com uma variável bool/flag. 
 
 ## Missão 1: LISTAR_ASTRONAUTAS e HISTORICO
 

@@ -3,6 +3,7 @@
 #      bash testes/testar.sh missao1
 #      bash testes/testar.sh missao2
 #      bash testes/testar.sh missao3
+#      bash testes/testar.sh missao4
 #
 # Compila o programa e roda cada arquivo .in da pasta escolhida, comparando a
 # saida com o .out de mesmo nome. Rode a partir da raiz do repositorio.
@@ -10,7 +11,7 @@
 set -u
 
 if [ $# -ne 1 ]; then
-  echo "Uso: bash testes/testar.sh parte1|missao1|missao2|missao3"
+  echo "Uso: bash testes/testar.sh parte1|missao1|missao2|missao3|missao4"
   exit 1
 fi
 

@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -70,12 +71,16 @@ private:
     int codigo;
     string estado;
     vector<string> cpfs;
+    string destino;
+    int duracao;
 
 public:
 
     Voo(int cod){
         codigo = cod;
         estado = "planejado";
+        destino = "";
+        duracao = 0;
     }
 
     int getCodigo(){
@@ -84,6 +89,23 @@ public:
 
     string getEstado(){
         return estado;
+    }
+
+    string getDestino(){
+        return destino;
+    }
+
+    int getDuracao(){
+        return duracao;
+    }
+
+    bool jaDefinido(){
+        return destino != "";
+    }
+
+    void definirDestinoDuracao(string novoDestino, int novaDuracao){
+        destino = novoDestino;
+        duracao = novaDuracao;
     }
 
     int getQuantidadeAstronautas(){
@@ -139,6 +161,7 @@ class Agencia{
 private:
     vector<Astronauta> astronautas;
     vector<Voo> voos;
+    vector<int> voosDefinidos;
     int buscarAstronauta(string numCpf){
         for(int i = 0; i < astronautas.size(); i++){
             if(astronautas[i].getCpf() == numCpf){
@@ -269,6 +292,58 @@ public:
         arquivo.close();
 
         cout << "OK: dados carregados de " << nomeArquivo << endl;
+    }
+
+    void definirVoo(int codigo, string parametros){
+        istringstream iss(parametros);
+        string destino;
+        int duracao;
+
+        iss >> destino;
+
+        if(destino == ""){
+            cout << "ERRO: destino nao pode ser vazio" << endl;
+            return;
+        }
+
+        if(!(iss >> duracao) || duracao <= 0){
+            cout << "ERRO: duracao do voo deve ser maior que 0" << endl;
+            return;
+        }
+
+        int posicaoVoo = buscarVoo(codigo);
+
+        if(posicaoVoo == -1){
+            cout << "ERRO: voo " << codigo << " nao cadastrado" << endl;
+            return;
+        }
+
+        if(voos[posicaoVoo].jaDefinido()){
+            cout << "ERRO: voo " << codigo << " ja possui destino e duracao" << endl;
+            return;
+        }
+
+        voos[posicaoVoo].definirDestinoDuracao(destino, duracao);
+        voosDefinidos.push_back(codigo);
+
+        cout << "OK: voo " << codigo << " atualizado" << endl;
+    }
+
+    void agenda(){
+        cout << "AGENDA DE VOOS" << endl;
+
+        if(voosDefinidos.size() == 0){
+            cout << "(nenhum)" << endl;
+            return;
+        }
+
+        for(int i = 0; i < voosDefinidos.size(); i++){
+            int posicaoVoo = buscarVoo(voosDefinidos[i]);
+
+            cout << "Voo " << voosDefinidos[i] << " - "
+                 << voos[posicaoVoo].getDestino() << " - "
+                 << voos[posicaoVoo].getDuracao() << " minutos" << endl;
+        }
     }
 
     void relatorio(){
@@ -738,6 +813,14 @@ int main() {
             agencia.carregar(arquivo);
         } else if (comando == "RELATORIO") {
             agencia.relatorio();
+        } else if (comando == "DEFINIR_VOO") {
+            int codigo;
+            cin >> codigo;
+            string parametros;
+            getline(cin, parametros);
+            agencia.definirVoo(codigo, parametros);
+        } else if (comando == "AGENDA") {
+            agencia.agenda();
         } else {
             cout << "ERRO: comando desconhecido " << comando << endl;
         }

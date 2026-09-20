@@ -1,0 +1,9 @@
+OK: voo 10 cadastrado
+ERRO: duracao do voo deve ser maior que 0
+ERRO: duracao do voo deve ser maior que 0
+ERRO: destino nao pode ser vazio
+ERRO: voo 99 nao cadastrado
+OK: voo 10 atualizado
+ERRO: voo 10 ja possui destino e duracao
+AGENDA DE VOOS
+Voo 10 - Lua - 120 minutos

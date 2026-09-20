@@ -1,0 +1,11 @@
+OK: voo 10 cadastrado
+OK: voo 10 atualizado
+OK: voo 20 cadastrado
+OK: voo 20 atualizado
+OK: voo 30 cadastrado
+OK: voo 30 atualizado
+ERRO: voo 10 ja cadastrado
+AGENDA DE VOOS
+Voo 10 - Lua - 120 minutos
+Voo 20 - Marte - 300 minutos
+Voo 30 - EstacaoEspacial - 60 minutos

@@ -15,13 +15,13 @@ com a IA. Cole só os pedidos que você enviou.
 
 **- O que acontece em `LANCAR_VOO`, em palavras:** A agencia verifica a existência do voo, confere o estado, checa se tem alguém a bordo (para cada cpf procura o astronauta, verifica se está vivo e disponível). Depois de todas essas verificações, dá instruções para os astronautas embarcarem e manda o voo mudar o estado.
 
-**- Uma dúvida que eu tinha antes de começar:**
+**- Uma dúvida que eu tinha antes de começar:** Acho que nenhuma, o material veio com instruções bem claras do que deveria ser feito.
 
 ## Parte 1: uso de IA para entender algo
 
-**- O que perguntei (ou "não usei"):**
+**- O que perguntei (ou "não usei"):** Não usei
 
-**- O que aprendi:**
+**- O que aprendi:** Não usei
 
 ## Primeiro contato: revisão sem editar
 
@@ -29,7 +29,7 @@ com a IA. Cole só os pedidos que você enviou.
 
 **- A que escolhi e por quê:** Alterar um comando de `removerAstronauta`. A escolha foi baseada no mínimo de mudança que a IA faria no programa, pois ainda não me sentia segura em permitir uma mudança mais robusta. 
 
-**- O que mudou no código, e se os seis testes continuaram passando:** A mudança foi bem básica e quase imperceptível, apenas uma linha:
+**- O que mudou no código, e se os seis testes continuaram passando:** A mudança foi bem básica e quase imperceptível, apenas duas linha:
 ```ANTES
 bool removerAstronauta(string numCpf){
      for (int i = 0; i < cpfs.size(); i++) {
@@ -46,14 +46,14 @@ bool removerAstronauta(string numCpf){
         for(int i = 0; i < cpfs.size(); i++){
             if(cpfs[i] == numCpf){
                 cpfs.erase(cpfs.begin() + i);
-                return true;
+                return true;             // mudanca
             }
         }
-        return false;
+        return false;                   // mudanca
 }
 ```
 
-**- O que entendi que não sabia antes:** A IA explicou que existe uma regra simples na qual, se depois do laço não há mais nada a fazer, `return` é mais curto. Se há (ex.: imprimir, contar, continuar o laço para outro objetivo), aí usa `break` com uma variável bool/flag. 
+**- O que entendi que não sabia antes:** A IA explicou que existe uma regra simples na qual, se depois do laço não há mais nada a fazer, `return` é mais curto. Se há (ex.: imprimir, contar, continuar o laço para outro objetivo), aí usa `break` com uma variável bool. 
 
 ## Missão 1: LISTAR_ASTRONAUTAS e HISTORICO
 
@@ -63,7 +63,7 @@ Este programa em C++11 controla astronautas e voos de uma agência espacial. Ele
 
 Missão 1: LISTAR_ASTRONAUTAS e HISTORICO
 LISTAR_ASTRONAUTAS mostra todos os astronautas em três grupos, na ordem de cadastro dentro de cada grupo. No grupo disponiveis entram os vivos que não estão em nenhum voo em curso. No grupo em voo entram os vivos que estão em um voo em curso, com o código desse voo. No grupo mortos entram os mortos. Grupo vazio mostra (nenhum). Os dois exemplos abaixo são do mesmo cenário: Ana voou no 10, que terminou com sucesso, e agora está no 20, em curso. Bruno morreu em outro voo.
-
+```
 LISTA DE ASTRONAUTAS
 == disponiveis ==
 333 Carla Souza (28 anos)
@@ -78,6 +78,7 @@ nao cadastrado.
 HISTORICO DE 111 Ana Maria
 voo 10: finalizado com sucesso
 voo 20: em curso
+```
 
 Não mude nenhum comando que já existe nem a saída deles. Não use nada fora da biblioteca padrão. Vou conferir com bash testes/testar.sh missao1 e depois com bash testes/testar.sh parte1. Antes de editar, me diga quais arquivos e quais métodos você vai criar ou alterar, e por quê.
  
@@ -113,7 +114,9 @@ Este programa em C++11 controla astronautas e voos de uma agência espacial. Ele
 
 Missão 2: SALVAR e CARREGAR
 SALVAR nome_do_arquivo grava todos os dados em um arquivo de texto e imprime OK: dados salvos em nome_do_arquivo. Se não conseguir abrir o arquivo para escrita: ERRO: nao foi possivel salvar em nome_do_arquivo.
+
 CARREGAR nome_do_arquivo substitui todos os dados atuais pelos do arquivo e imprime OK: dados carregados de nome_do_arquivo. Se o arquivo não existir: ERRO: nao foi possivel carregar de nome_do_arquivo, e os dados atuais continuam como estavam.
+
 O formato do arquivo é escolha sua e da IA, desde que seja texto e que carregar depois de salvar reconstrua tudo: astronautas com vivo e disponível, voos com estado e lista de CPFs. Peça que a IA mostre o formato com um exemplo e explique como o programa reconstrói os objetos ao ler.
 
 Teste: bash testes/testar.sh missao2. Ele roda três arquivos em sequência: o primeiro monta um cenário e salva em dados_teste.txt; o segundo, em outra execução do programa, carrega e continua operando; o terceiro tenta carregar um arquivo que não existe. Depois: bash testes/ testar.sh parte1. 
@@ -160,7 +163,7 @@ OK    03_arquivo_inexistente
 ```
 
 
-**- Precisei refazer? O que mudou no pedido:** Não precisei refazer nada, atendeu bem ao que eu havia solicitado. Durante sua execução, ele colocou um método como privado, depois constatou que precisava que ele fosse público e ele mesmo alterou na hora.
+**- Precisei refazer? O que mudou no pedido:** Não precisei refazer nada, atendeu bem ao que eu havia solicitado. Durante sua execução, ela colocou um método como privado, depois constatou que precisava que ele fosse público e ela mesmo alterou na hora.
 
 ## Missão 3: RELATORIO
 
@@ -170,6 +173,7 @@ Este programa em C++11 controla astronautas e voos de uma agência espacial. Ele
 
 Missão 3: RELATORIO
 RELATORIO imprime a linha RELATORIO seguida de nove linhas sobre o estado atual:
+```
 RELATORIO
 voos planejados: 0
 voos em curso: 0
@@ -180,6 +184,7 @@ astronautas vivos: 2
 astronautas mortos: 2
 astronauta mais experiente: 111 Ana Maria (voos lancados: 1)
 taxa de sucesso: 33%
+```
 Regras:
 • A experiência de um astronauta é o número de voos já lançados em que ele estava a bordo. Voo ainda planejado não conta. Astronauta morto continua contando. Em caso de empate, vale o cadastrado primeiro. Se ninguém voou: astronauta mais experiente: (nenhum).
 • Taxa de sucesso é a parte inteira de sucessos * 100 / finalizados, onde finalizados são os com sucesso mais os com explosão. Sem voos finalizados: taxa de sucesso: (nenhum voo finalizado).
@@ -192,10 +197,10 @@ Não mude nenhum comando que já existe nem a saída deles. Não use nada fora d
 
 **- O plano, resumido:**
 ```De maneira resumida, na missão 3, a IA alterou: 
-O que                                | Onde                     | Por quê
-void Agencia::relatorio()            | parte public da Agencia  | imprime as 10 linhas do RELATORIO
-int contarVoosLancados(string cpf)   | parte privada da Agencia | conta em quantos voos lançados o astronauta estava a bordo (a experiência)
-RELATORIO                            | main()                   | chamar agencia.relatorio()
+O que                                | Onde             | Por quê
+void Agencia::relatorio()            | public Agencia   | imprime as 10 linhas do RELATORIO
+int contarVoosLancados(string cpf)   | private Agencia  | conta em quantos voos lançados o astronauta estava a bordo (a experiência)
+RELATORIO                            | main()           | chamar agencia.relatorio()
 ```
 
 **- Resultado de `testar.sh missao3` e de `testar.sh parte1`:**
@@ -245,6 +250,7 @@ Voo 10 - Lua - 120 minutos
 Este programa em C++11 controla astronautas e voos de uma agência espacial. Ele lê comandos da entrada padrão. As classes Astronauta, Voo e Agencia estão em src/main.cpp. Os testes em testes/parte1 passam. Recentemente foi feita a inclusão de 5 novos comandos, dois deles para a missão 1 LISTAR_ASTRONAUTAS e HISTORICO cpf, outros dois para a missão 2 SALVAR e CARREGAR, e um para a missão 3 RELATORIO. Eles atendem fazem o que tem que ser feito e os testes em testes/parte1, testes/missao1, testes/missao2 e testes/missao3 passam. Quero dois comandos novos: DEFINIR_VOO, e um comando que mostra a AGENDA. O funcionamento está abaixo.
 
 DEFINIR_VOO é responsável por atualizar os voos cadastrados com o destino e o tempo de duração da viagem. 
+
 AGENDA imprime a linha AGENDA DE VOOS seguida de linhas correspondentes a quantidade de voos que foram atualizados (previamente cadastrados). A impressão deve ser feita na ordem que foram definidos/atualizados, não cadastrados, dessa maneira:
 ```
 OK: voo 10 cadastrado
@@ -289,9 +295,9 @@ Em Voo: campos string destino; int duracao;  | classe Voo               | guarda
 Voo::definirDestinoDuracao(dest, dur)        | classe Voo               | seta os dois campos
 Voo::jaDefiniu()                             | classe Voo               | saber se o voo já foi atualizado
 Voo:: getDestino() e getDuracao()            | classe Voo               | usados na AGENDA
-vector<int> voosDefinidos;                   |private Agencia           | guarda o código dos voos na ordem em qie foram definidos
+vector<int> voosDefinidos;                   | private Agencia          | guarda o código dos voos na ordem em qie foram definidos
 Agencia::definirVoo(codigo, parametros)      | public Agencia           | valida e atualiza o voo
-Agencia::agenda()                            |public Agencia            |imprime a AGENDA DE VOOS
+Agencia::agenda()                            | public Agencia           | imprime a AGENDA DE VOOS
 DEFINIR_VOO e AGENDA                         | main()                   | chamar os métodos
 ```
 
@@ -301,8 +307,8 @@ DEFINIR_VOO e AGENDA                         | main()                   | chamar
 
 ## Fechamento
 
-**- O que a IA fez que eu não conseguiria fazer sozinho nesse prazo:**
+**- O que a IA fez que eu não conseguiria fazer sozinho nesse prazo:** Missão 2 e Missão 4, principalmente. Eu imaginava as missões de uma maneira bem mais simples na qual não seriam necessárias tantas modificações. Provavelmente faria errado.
 
-**- Onde ela errou ou fez algo que eu não pedi:**
+**- Onde ela errou ou fez algo que eu não pedi:** Errou apenas na missão 2, colocando um método privado ao invés de público. Após constatar o erro, ela mesmo se corrigiu.
 
-**- O que eu faria diferente da próxima vez:**
+**- O que eu faria diferente da próxima vez:** Aceitaria as outras opções que a IA sugeriu para verificar melhoria na eficiência do projeto.

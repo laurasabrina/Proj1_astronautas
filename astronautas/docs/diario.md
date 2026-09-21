@@ -20,6 +20,7 @@ com a IA. Cole só os pedidos que você enviou.
 ## Parte 1: uso de IA para entender algo
 
 **- O que perguntei (ou "não usei"):**
+
 **- O que aprendi:**
 
 ## Primeiro contato: revisão sem editar
@@ -120,18 +121,18 @@ Teste: bash testes/testar.sh missao2. Ele roda três arquivos em sequência: o p
 Não mude nenhum comando que já existe nem a saída deles. Não use nada fora da biblioteca padrão. Vou conferir com bash testes/testar.sh missao2 e depois com bash testes/testar.sh parte1. Antes de editar, me diga quais arquivos e quais métodos você vai criar ou alterar, e por quê.
 
 **- O plano, resumido:**
-De maneira resumida, na missão 2, a IA alterou: 
-O que                                   | Onde            | Por quê
-#include <fstream>                      | topo do arquivo | ofstream/ifstream para ler e escrever arquivos
-void Agencia::salvar(string arquivo)    | classe Agencia  | grava tudo e imprime OK: ... ou ERRO: ...
-void Agencia::carregar(string arquivo)  | classe Agencia  | limpar os vectors, lê o arq e reconstroi os objetos
-void Astronauta::definirEstado(bool vivo, bool disp)  |classe Astronauta  | sem isso não dá pra restaurar o estado vivo/disponível ao carregar
-void Voo::definirEstado(string es)  |classe Voo  | sem isso não dápara restaurar o estado do voo ao carregar
-SALVAR e CARREGAR  | main()  | ler o nome do arquivo e chamar os métodos
-
+```De maneira resumida, na missão 2, a IA alterou: 
+O que                                                 | Onde              | Por quê
+#include <fstream>                                    | topo do arquivo   | ofstream/ifstream para ler e escrever arquivos
+void Agencia::salvar(string arquivo)                  | classe Agencia    | grava tudo e imprime OK: ... ou ERRO: ...
+void Agencia::carregar(string arquivo)                | classe Agencia    | limpar os vectors, lê o arq e reconstroi os objetos
+void Astronauta::definirEstado(bool vivo, bool disp)  | classe Astronauta | sem isso não dá pra restaurar o estado vivo/disponível ao carregar
+void Voo::definirEstado(string es)                    | classe Voo        | sem isso não dápara restaurar o estado do voo ao carregar
+SALVAR e CARREGAR                                     | main()            | ler o nome do arquivo e chamar os métodos
+```
 **- O formato do arquivo (cole cinco linhas do `dados_teste.txt`):** O arquivo tinha o formato de um campo por linha, dessa forma:
-
-```ASTRONAUTAS
+```
+ASTRONAUTAS
 3
 111
 Ana Maria
@@ -165,8 +166,6 @@ OK    03_arquivo_inexistente
 
 **- Primeira mensagem:**
 
--------------------------------------------------------------------------------------------------MISSÃO 3-------------------------------------------------------------------------------------------------
-
 Este programa em C++11 controla astronautas e voos de uma agência espacial. Ele lê comandos da entrada padrão. As classes Astronauta, Voo e Agencia estão em src/main.cpp. Os testes em testes/parte1 passam. Recentemente foi feita a inclusão de quatro novos comandos, dois deles para a missão 1 LISTAR_ASTRONAUTAS e HISTORICO cpf, e os outros dois para a missão 2 SALVAR e CARREGAR. Eles atendem fazem o que tem que ser feito e os testes em testes/parte1, testes/missao1 e testes/missao2 passam. Quero um comando novo: RELATORIO. O funcionamento está abaixo.
 
 Missão 3: RELATORIO
@@ -192,11 +191,12 @@ no arquivo.
 Não mude nenhum comando que já existe nem a saída deles. Não use nada fora da biblioteca padrão. Vou conferir com bash testes/testar.sh missao2 e depois com bash testes/testar.sh parte1. Antes de editar, me diga quais arquivos e quais métodos você vai criar ou alterar, e por quê.
 
 **- O plano, resumido:**
-De maneira resumida, na missão 3, a IA alterou: 
+```De maneira resumida, na missão 3, a IA alterou: 
 O que                                | Onde                     | Por quê
 void Agencia::relatorio()            | parte public da Agencia  | imprime as 10 linhas do RELATORIO
 int contarVoosLancados(string cpf)   | parte privada da Agencia | conta em quantos voos lançados o astronauta estava a bordo (a experiência)
 RELATORIO                            | main()                   | chamar agencia.relatorio()
+```
 
 **- Resultado de `testar.sh missao3` e de `testar.sh parte1`:**
 
@@ -225,8 +225,10 @@ OK    05_relatorio_apos_carregar
 ## Missão 4: livre
 
 **- O que escolhi e por quê:** dentre as ideias sugeridas no material, tomei a liberdade de escolher a opção "destino e duração do voo, e um comando que mostra a agenda". A escolha foi motivada pelo menor grau de dificuldade da implementação, o que reduz a possibilidade de erros por parte da IA e facilita a elaboração dos testes.
+
 **- O comando novo, a saída que eu esperava e o nome do meu arquivo de comandos (escritos antes de pedir):** Os novos comando foram DEFINIR_VOO e AGENDA. DEFINIR_VOO é responsável por atualizar os voos cadastrados com o destino e o tempo de duração da viagem. AGENDA imprime a linha AGENDA DE VOOS seguida de linhas correspondentes a quantidade de voos que foram atualizados (previamente cadastrados). A impressão deve ser feita na ordem que foram definidos/atualizados, não cadastrados. Além disso, DEFINIR_VOO passa por algumas validações usuais para verificar a veracidade das informações prestadas: por exemplo, não há como definir a duração de uma viagem com tempo menor ou igual a 0, não há a possibilidade de definir um voo se não houverem todos os parâmetros, não é possível definir um voo que não foi cadastrado, não é possível definir um voo que já foi definido antes. A saída esperada é mostrada a seguir:
 
+```
 OK: voo 10 cadastrado
 ERRO: duracao do voo deve ser maior que 0
 ERRO: duracao do voo deve ser maior que 0
@@ -236,14 +238,15 @@ OK: voo 10 atualizado
 ERRO: voo 10 ja possui destino e duracao
 AGENDA DE VOOS
 Voo 10 - Lua - 120 minutos
+```
 
 **- Primeira mensagem:**
--------------------------------------------------------------------------------------------------MISSÃO 4-------------------------------------------------------------------------------------------------
+
 Este programa em C++11 controla astronautas e voos de uma agência espacial. Ele lê comandos da entrada padrão. As classes Astronauta, Voo e Agencia estão em src/main.cpp. Os testes em testes/parte1 passam. Recentemente foi feita a inclusão de 5 novos comandos, dois deles para a missão 1 LISTAR_ASTRONAUTAS e HISTORICO cpf, outros dois para a missão 2 SALVAR e CARREGAR, e um para a missão 3 RELATORIO. Eles atendem fazem o que tem que ser feito e os testes em testes/parte1, testes/missao1, testes/missao2 e testes/missao3 passam. Quero dois comandos novos: DEFINIR_VOO, e um comando que mostra a AGENDA. O funcionamento está abaixo.
 
 DEFINIR_VOO é responsável por atualizar os voos cadastrados com o destino e o tempo de duração da viagem. 
 AGENDA imprime a linha AGENDA DE VOOS seguida de linhas correspondentes a quantidade de voos que foram atualizados (previamente cadastrados). A impressão deve ser feita na ordem que foram definidos/atualizados, não cadastrados, dessa maneira:
-
+```
 OK: voo 10 cadastrado
 OK: voo 20 cadastrado
 OK: voo 30 cadastrado
@@ -253,7 +256,8 @@ OK: voo 20 atualizado
 AGENDA DE VOOS
 Voo 30 - Marte - 300 minutos
 Voo 10 - Lua - 120 minutos
-Voo 20 - EstacaoEspacial - 60 minutos 
+Voo 20 - EstacaoEspacial - 60 minutos
+```
 
 O DEFINIR_VOO passa por algumas validações usuais para verificar a veracidade das informações prestadas: por exemplo, não há como definir a duração de uma viagem com tempo menor ou igual a 0, não há a possibilidade de definir um voo se não houverem todos os parâmetros, não é possível definir um voo que não foi cadastrado, não é possível definir um voo que já foi definido antes. A saída esperada é mostrada a seguir:
 
@@ -277,18 +281,19 @@ Além disso, não é possível cadastrar um voo que já foi cadastrado, como faz
 Não mude nenhum comando que já existe nem a saída deles. Não use nada fora da biblioteca padrão. Vou conferir com bash testes/testar.sh missao4 e depois com bash testes/testar.sh parte1. Antes de editar, me diga quais arquivos e quais métodos você vai criar ou alterar, e por quê.
 
 **- O que veio, comparado com o que eu esperava:**
-
+```
 De maneira resumida, na missão 4, a IA alterou: 
-O que                                | Onde                     | Por quê
-#include <sstream>                   | topo do arquivo          | para ler destino e duração do que sobra na linha
-Em Voo: campos string destino; int duracao; | classe Voo        | guarda o destino e duração
-Voo::definirDestinoDuracao(dest, dur)| classe Voo               | seta os dois campos
-Voo::jaDefiniu()                     | classe Voo               | saber se o voo já foi atualizado
-Voo:: getDestino() e getDuracao()    | classe Voo               | usados na AGENDA
-vector<int> voosDefinidos;           |private Agencia           | guarda o código dos voos na ordem em qie foram definidos
-Agencia::definirVoo(codigo, parametros)| public Agencia         | valida e atualiza o voo
-Agencia::agenda()                    |public Agencia            |imprime a AGENDA DE VOOS
-DEFINIR_VOO e AGENDA                 | main()                   | chamar os métodos
+O que                                        | Onde                     | Por quê
+#include <sstream>                           | topo do arquivo          | para ler destino e duração do que sobra na linha
+Em Voo: campos string destino; int duracao;  | classe Voo               | guarda o destino e duração
+Voo::definirDestinoDuracao(dest, dur)        | classe Voo               | seta os dois campos
+Voo::jaDefiniu()                             | classe Voo               | saber se o voo já foi atualizado
+Voo:: getDestino() e getDuracao()            | classe Voo               | usados na AGENDA
+vector<int> voosDefinidos;                   |private Agencia           | guarda o código dos voos na ordem em qie foram definidos
+Agencia::definirVoo(codigo, parametros)      | public Agencia           | valida e atualiza o voo
+Agencia::agenda()                            |public Agencia            |imprime a AGENDA DE VOOS
+DEFINIR_VOO e AGENDA                         | main()                   | chamar os métodos
+```
 
 **- `testar.sh parte1` continuou passando?** Não só `teste.sh parte 1` como todos os outros testes continuaram passando com a inclusão da missão 4.
 
@@ -297,5 +302,7 @@ DEFINIR_VOO e AGENDA                 | main()                   | chamar os mét
 ## Fechamento
 
 **- O que a IA fez que eu não conseguiria fazer sozinho nesse prazo:**
+
 **- Onde ela errou ou fez algo que eu não pedi:**
+
 **- O que eu faria diferente da próxima vez:**
